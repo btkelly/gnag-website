@@ -1,0 +1,15 @@
+@import java.util
+
+@(projects: util.List[Project])
+
+@main("Yay! Projects") {
+
+    <ul>
+        @for(index <- 0 until projects.size){
+            <li>
+                <a href="/configForSlug?slug=@projects(index).getFullName">@projects(index).getFullName</a>
+            </li>
+        }
+    </ul>
+
+}

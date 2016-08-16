@@ -2,7 +2,7 @@
  * This template takes a single argument, a String containing a
  * message to display.
  *@
-@(message: String)
+@(message: String, clientId: String)
 
 @*
  * Call the `main` template with two arguments. The first
@@ -11,10 +11,12 @@
  *@
 @main("Welcome to Play") {
 
-    @*
-     * Get an `Html` object by calling the built-in Play welcome
-     * template and passing a `String` message.
-     *@
-    @play20.welcome(message, style = "Java")
+    <p>
+        Well, hello there!
+    </p>
+    <p>
+        We're going to now talk to the GitHub API. Ready?
+        <a href="https://github.com/login/oauth/authorize?scope=repo&client_id=@clientId">Click here</a> to begin!
+    </p>
 
 }
