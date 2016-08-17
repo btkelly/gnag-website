@@ -9,14 +9,34 @@
 * argument is a `String` with the title of the page, the second
 * argument is an `Html` object containing the body of the page.
 *@
-@main("Yay! callback") {
+@main("Repo Setup") {
 
-    <p>
-        Code to fetch token: @code
-        <br>
-        Hey we got your auth code! @token
-        <br>
-        <a href="loadProjects?token=@token">Load all projects</a>
-    </p>
+    <!-- Header -->
+    <header id="header">
+        <span class="title">Repo Setup</span>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+            <!-- Main -->
+        <section id="main" class="wrapper">
+            <div class="inner">
+                <p>
+                    Code to fetch token: @code
+                    <br>
+                    Hey we got your auth code! @token
+                    <br>
+                    <a href="loadProjects?token=@token">Load all projects</a>
+                </p>
+            </div>
+        </section>
+
+    </div>
 
 }
