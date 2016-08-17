@@ -16,10 +16,10 @@
         <div class="inner">
             <nav>
                 <ul>
-                    <li><a href="#intro">Welcome</a></li>
-                    <li><a href="#one">Who we are</a></li>
-                    <li><a href="#two">What we do</a></li>
-                    <li><a href="#three">Get in touch</a></li>
+                    <li><a href="#intro">Gnag</a></li>
+                    <li><a href="#one">Getting Started</a></li>
+                    <li><a href="#two">Contributing</a></li>
+                    <li><a href="#three">License</a></li>
                 </ul>
             </nav>
         </div>
@@ -31,11 +31,10 @@
             <!-- Intro -->
         <section id="intro" class="wrapper style1 fullscreen fade-up">
             <div class="inner">
-                <h1>Hyperspace</h1>
-                <p>Just another fine responsive site template designed by <a href="http://html5up.net">HTML5 UP</a><br />
-                    and released for free under the <a href="http://html5up.net/license">Creative Commons</a>.</p>
+                <h1>Gnag</h1>
+                <p>A Gradle plugin that helps facilitate GitHub PR checking and automatic commenting of violations for Android projects.</p>
                 <ul class="actions">
-                    <li><a href="#one" class="button scrolly">Learn more</a></li>
+                    <li><a href="#one" class="button scrolly">Get Started</a></li>
                 </ul>
             </div>
         </section>
@@ -43,7 +42,7 @@
             <!-- One -->
         <section id="one" class="wrapper style2 spotlights">
             <section>
-                <a href="#" class="image"><img src="images/pic01.jpg" alt="" data-position="center center" /></a>
+                <a href="#" class="image"><img src="@routes.Assets.versioned("images/pic01.jpg")" alt="" data-position="center center" /></a>
                 <div class="content">
                     <div class="inner">
                         <h2>Sed ipsum dolor</h2>
@@ -55,7 +54,7 @@
                 </div>
             </section>
             <section>
-                <a href="#" class="image"><img src="images/pic02.jpg" alt="" data-position="top center" /></a>
+                <a href="#" class="image"><img src="@routes.Assets.versioned("images/pic02.jpg")" alt="" data-position="top center" /></a>
                 <div class="content">
                     <div class="inner">
                         <h2>Feugiat consequat</h2>
@@ -67,7 +66,7 @@
                 </div>
             </section>
             <section>
-                <a href="#" class="image"><img src="images/pic03.jpg" alt="" data-position="25% 25%" /></a>
+                <a href="#" class="image"><img src="@routes.Assets.versioned("images/pic03.jpg")" alt="" data-position="25% 25%" /></a>
                 <div class="content">
                     <div class="inner">
                         <h2>Ultricies aliquam</h2>
@@ -125,58 +124,26 @@
 
             <!-- Three -->
         <section id="three" class="wrapper style1 fade-up">
-            <div class="inner">
-                <h2>Get in touch</h2>
-                <p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus, lacus eget hendrerit bibendum, urna est aliquam sem, sit amet imperdiet est velit quis lorem.</p>
-                <div class="split style1">
-                    <section>
-                        <form method="post" action="#">
-                            <div class="field half first">
-                                <label for="name">Name</label>
-                                <input type="text" name="name" id="name" />
-                            </div>
-                            <div class="field half">
-                                <label for="email">Email</label>
-                                <input type="text" name="email" id="email" />
-                            </div>
-                            <div class="field">
-                                <label for="message">Message</label>
-                                <textarea name="message" id="message" rows="5"></textarea>
-                            </div>
-                            <ul class="actions">
-                                <li><a href="" class="button submit">Send Message</a></li>
-                            </ul>
-                        </form>
-                    </section>
-                    <section>
-                        <ul class="contact">
-                            <li>
-                                <h3>Address</h3>
-                                <span>12345 Somewhere Road #654<br />
-                                    Nashville, TN 00000-0000<br />
-                                    USA</span>
-                            </li>
-                            <li>
-                                <h3>Email</h3>
-                                <a href="#">User</a>
-                            </li>
-                            <li>
-                                <h3>Phone</h3>
-                                <span>(000) 000-0000</span>
-                            </li>
-                            <li>
-                                <h3>Social</h3>
-                                <ul class="icons">
-                                    <li><a href="#" class="fa-twitter"><span class="label">Twitter</span></a></li>
-                                    <li><a href="#" class="fa-facebook"><span class="label">Facebook</span></a></li>
-                                    <li><a href="#" class="fa-github"><span class="label">GitHub</span></a></li>
-                                    <li><a href="#" class="fa-instagram"><span class="label">Instagram</span></a></li>
-                                    <li><a href="#" class="fa-linkedin"><span class="label">LinkedIn</span></a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </section>
-                </div>
+            <div class="inner" style="max-width: 800px">
+                <h2>License</h2>
+                <p>
+                    Copyright 2016 Bryan Kelly
+                </p>
+                <p>
+                    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+                    you may not use this file except in compliance with the License.
+                    You may obtain a copy of the License at
+                </p>
+                <p>
+                    <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>
+                </p>
+                <p>
+                    Unless required by applicable law or agreed to in writing, software
+                    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+                    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+                    See the License for the specific language governing permissions and
+                    limitations under the License.
+                </p>
             </div>
         </section>
 
@@ -186,7 +153,7 @@
     <footer id="footer" class="wrapper style1-alt">
         <div class="inner">
             <ul class="menu">
-                <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                <li>&copy; Gnag. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
             </ul>
         </div>
     </footer>
