@@ -13,7 +13,6 @@
 
     <!-- Header -->
     <header id="header">
-        <span class="title">Repo Setup</span>
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
@@ -27,6 +26,7 @@
             <!-- Main -->
         <section id="main" class="wrapper">
             <div class="inner">
+                <h1 class="major">Repo Setup</h1>
                 <p>
                     Code to fetch token: @code
                     <br>
@@ -34,6 +34,23 @@
                     <br>
                     <a href="loadProjects?token=@token">Load all projects</a>
                 </p>
+<pre><code>buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.btkelly:gnag:{current version}'
+    }
+}
+
+apply plugin: 'gnag'
+gnag {
+    github {
+        repoName '{owner/repo}'
+        authToken '{auth_token}'
+        issueNumber '{pr_number}'
+    }
+}</code></pre>
             </div>
         </section>
 

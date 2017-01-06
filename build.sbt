@@ -1,4 +1,4 @@
-name := """play-java"""
+name := """gnag-website"""
 
 version := "1.0-SNAPSHOT"
 
