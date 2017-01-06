@@ -7,7 +7,7 @@ target
 /.settings
 /RUNNING_PID
 
-/.sbtserver
+*.sbtserver
 
 # Created by https://www.gitignore.io/api/playframework
 
