@@ -10,8 +10,14 @@ import views.html.index;
  */
 public class HomeController extends Controller {
 
+    /**
+     * Renders the main home page and provides the Gnag client ID used to create the GitHub authentication
+     * link.
+     * @return
+     */
     public Result index() {
 
+        //TODO move client ID and client secrect to configuration / environment variables
         //Option<String> clientId = Play.current().configuration().getString("play.gh.id", null);
 
         return ok(index.render("Your new application is ready.", "8b6feba195daa45b3f6c"));

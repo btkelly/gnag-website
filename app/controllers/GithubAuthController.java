@@ -22,19 +22,27 @@ import java.util.concurrent.CompletionStage;
 /**
  * Created by bobbake4 on 8/17/16.
  */
-public class GithubAuthController extends Controller {
+public class GitHubAuthController extends Controller {
 
     private final WSClient wsClient;
 
     @Inject
-    public GithubAuthController(WSClient wsClient) {
+    public GitHubAuthController(WSClient wsClient) {
         this.wsClient = wsClient;
     }
 
+    /**
+     * Function called by the GitHub authentication flow which takes the resulting code as a parameter.
+     * This function will take the code passed and exchange it for a client access token used to make
+     * GitHub api requests.
+     * @param code
+     * @return
+     */
     public CompletionStage<Result> callback(String code) {
 
         final Http.Context context = Http.Context.current();
 
+        //TODO move client ID and client secrect to configuration / environment variables
         return wsClient.url("https://github.com/login/oauth/access_token")
                 .setQueryParameter("client_id", "8b6feba195daa45b3f6c")
                 .setQueryParameter("client_secret", "2856c15506bfae0592e7cc88761af653746196da")
@@ -52,7 +60,11 @@ public class GithubAuthController extends Controller {
                 });
     }
 
-
+    /**
+     * Attempts to load the currently authenticated users project list using the current sessions access_token
+     * which is set in the GitHubAuthController.callback function.
+     * @return
+     */
     public CompletionStage<Result> loadProjects() {
 
         return wsClient.url("https://api.github.com/user/repos")
@@ -72,6 +84,11 @@ public class GithubAuthController extends Controller {
                 });
     }
 
+    /**
+     * Used to render the Gradle configuration for a specific repository slug and access_token combination.
+     * @param slug
+     * @return
+     */
     public Result configForSlug(String slug) {
         return ok(gnagconfig.render(slug, session("token")));
     }

@@ -9,10 +9,10 @@ GET     /                           controllers.HomeController.index
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 # Github Auth callback URL
-GET     /callback                   controllers.GithubAuthController.callback(code: String)
+GET     /callback                   controllers.GitHubAuthController.callback(code: String)
 
 # Github Auth callback URL
-GET     /loadProjects               controllers.GithubAuthController.loadProjects
+GET     /loadProjects               controllers.GitHubAuthController.loadProjects
 
 # Gnag config URL
-GET     /configForSlug              controllers.GithubAuthController.configForSlug(slug: String)
+GET     /configForSlug              controllers.GitHubAuthController.configForSlug(slug: String)
