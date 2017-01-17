@@ -1,0 +1,60 @@
+@*
+* This template takes a single argument, a String containing a
+* message to display.
+*@
+@()
+
+@*
+* Call the `main` template with two arguments. The first
+* argument is a `String` with the title of the page, the second
+* argument is an `Html` object containing the body of the page.
+*@
+@main("Repo Setup") {
+
+    <!-- Header -->
+    <header id="header">
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+            </ul>
+        </nav>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+        <script>
+
+            $(function () {
+                // Dom ready
+
+                // Load project list to dropdown
+                $.getJSON("/loadProjects", function(data) {
+
+
+                    var projectSelector = $("#projectSelector");
+
+                    projectSelector.html("");
+
+                    $.each(data, function(i, item) {
+                        projectSelector.append("<option value='"+item.fullName+"'>" + item.name + "</option>");
+                    });
+               });
+
+            });
+        </script>
+
+    </header>
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+            <!-- Main -->
+        <section id="main" class="wrapper">
+            <div class="inner">
+                <h1 class="major">Repo Setup</h1>
+                Select project below to load your Gradle configuration.
+                <select id="projectSelector"/>
+            </div>
+        </section>
+
+    </div>
+
+}

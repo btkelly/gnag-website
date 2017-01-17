@@ -1,17 +1,28 @@
-@(slug: String, token: String)
+@(slug: String, token: String) {
 
-@codeblock {
+    <div>
+        <pre>
+            <code>
+                buildscript {
+                    repositories {
+                        jcenter()
+                    }
+                    dependencies {
+                        classpath 'com.btkelly:gnag:{current version}'
+                    }
+                }
 
-    <p>
-        gnag {
+                apply plugin: 'gnag'
 
-            github {
-                repoName '@slug'
-                authToken '@token'
-                issueNumber '2'
-            }
-
-        }
-    </p>
+                gnag {
+                    github {
+                        repoName '@slug'
+                        authToken '@token'
+                        issueNumber '{pr_number}'
+                    }
+                }
+            </code>
+        </pre>
+    </div>
 
 }
