@@ -2,6 +2,7 @@ package controllers;
 
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.confighelper;
 import views.html.index;
 
 /**
@@ -16,11 +17,20 @@ public class HomeController extends Controller {
      * @return
      */
     public Result index() {
+        return ok(index.render());
+    }
 
-        //TODO move client ID and client secrect to configuration / environment variables
-        //Option<String> clientId = Play.current().configuration().getString("play.gh.id", null);
-
-        return ok(index.render("Your new application is ready.", "8b6feba195daa45b3f6c"));
+    /**
+     * Will show the page for generating a Gradle config for a specific project. If the user has not authorized GitHub
+     * this will redirect to start the authentication flow.
+     * @return
+     */
+    public Result configHelper() {
+        if (session(GitHubAuthController.TOKEN_KEY) == null) {
+            return redirect("/startAuth");
+        } else {
+            return ok(confighelper.render());
+        }
     }
 
 }

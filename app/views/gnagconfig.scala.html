@@ -1,17 +1,23 @@
-@(slug: String, token: String)
-
-@codeblock {
-
-    <p>
-        gnag {
-
-            github {
-                repoName '@slug'
-                authToken '@token'
-                issueNumber '2'
-            }
-
-        }
-    </p>
-
+@(slug: String, token: String, latestVersion: String)
+<pre>
+    <code>
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.btkelly:gnag:@latestVersion'
+    }
 }
+
+apply plugin: 'gnag'
+
+gnag {
+    github {
+        repoName '@slug'
+        authToken '@token'
+        issueNumber '{pr_number}'
+    }
+}
+    </code>
+</pre>
