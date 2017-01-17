@@ -16,6 +16,7 @@ import views.html.gnagconfig;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -28,6 +29,7 @@ public class GitHubAuthController extends Controller {
     private static final String CLIENT_SECRET = "2856c15506bfae0592e7cc88761af653746196da";
 
     public static final String TOKEN_KEY = "token";
+    public static final String VERSION_KEY = "latestVersion";
 
     private final WSClient wsClient;
 
@@ -98,11 +100,28 @@ public class GitHubAuthController extends Controller {
     }
 
     /**
-     * Used to render the Gradle configuration for a specific repository slug and access_token combination.
+     * Used to render the Gradle configuration for a specific repository slug, access_token and version combination.
+     * Will fetch the latest plugin version if it has not already been cached.
      * @param slug
      * @return
      */
-    public Result configForSlug(String slug) {
-        return ok(gnagconfig.render(slug, session(TOKEN_KEY)));
+    public CompletionStage<Result> configForSlug(String slug) {
+
+        if (session(VERSION_KEY) == null) {
+
+            final Http.Context context = Http.Context.current();
+
+            return wsClient.url("https://api.bintray.com/packages/btkelly/maven/gnag-gradle-plugin/versions/_latest")
+                    .setHeader("accept", "application/json")
+                    .setRequestTimeout(10 * 1000)
+                    .get()
+                    .thenApply(response -> {
+                        String latestVersion = response.asJson().get("name").asText();
+                        context.session().put(VERSION_KEY, latestVersion);
+                        return ok(gnagconfig.render(slug, context.session().get(TOKEN_KEY), latestVersion));
+                    });
+        } else {
+            return CompletableFuture.completedFuture(ok(gnagconfig.render(slug, session(TOKEN_KEY), session(VERSION_KEY))));
+        }
     }
 }

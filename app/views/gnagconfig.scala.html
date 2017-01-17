@@ -1,28 +1,23 @@
-@(slug: String, token: String) {
-
-    <div>
-        <pre>
-            <code>
-                buildscript {
-                    repositories {
-                        jcenter()
-                    }
-                    dependencies {
-                        classpath 'com.btkelly:gnag:{current version}'
-                    }
-                }
-
-                apply plugin: 'gnag'
-
-                gnag {
-                    github {
-                        repoName '@slug'
-                        authToken '@token'
-                        issueNumber '{pr_number}'
-                    }
-                }
-            </code>
-        </pre>
-    </div>
-
+@(slug: String, token: String, latestVersion: String)
+<pre>
+    <code>
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.btkelly:gnag:@latestVersion'
+    }
 }
+
+apply plugin: 'gnag'
+
+gnag {
+    github {
+        repoName '@slug'
+        authToken '@token'
+        issueNumber '{pr_number}'
+    }
+}
+    </code>
+</pre>
