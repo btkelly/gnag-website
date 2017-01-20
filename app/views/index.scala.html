@@ -3,134 +3,48 @@
  * argument is a `String` with the title of the page, the second
  * argument is an `Html` object containing the body of the page.
  *@
-@main("Gnag Gradle Plugin") {
+@main("Gnag") {
 
-    <!-- Wrapper -->
-    <div id="wrapper">
+    <div id="nav-wrapper">
+        <div id="nav">
+            <img src="@routes.Assets.versioned("images/gnag-bot.png")" width="32" height="32" class="logo" title="Gnag Logo" alt="Gnag" />
+            <span class="site-name">Gnag</span>
+        </div>
+    </div>
 
-            <!-- Intro -->
-        <section id="intro" class="wrapper style1 fullscreen fade-up">
-            <div class="inner">
-                <h1><a href="https://github.com/btkelly/gnag" class="icon fa-github"><span class="label">Github</span></a> Gnag</h1>
-                <p>A Gradle plugin that helps facilitate GitHub PR checking and automatic commenting of violations for Android projects.</p>
-                <ul class="actions">
-                    <li><a href="#one" class="button scrolly">Find out more</a></li>
-                </ul>
+    <div id="content">
+        <div class="header">
+            <h1>Gnag is a Gradle plugin for Android projects that monitors and reports on common violations.</h1>
+            <a href="/startAuth" class="github-button">Set up with GitHub</a>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <img width="311" height="240" alt="GitHub Integration">
+                <h2>Github Integration</h2>
+                <p>Integrate with your existing GitHub workflow by allowing Gnag to comment on pull requests.</p>
             </div>
-        </section>
 
-            <!-- One -->
-        <section id="one" class="wrapper style2 fade-up">
-            <div class="inner">
-                <h2>How it works</h2>
-                <p>
-                    You can be confident in any PR opened has been checked for common bugs and follows your code style guides
-                </p>
+            <div class="feature">
+                <img width="311" height="240" alt="Automated Style Checks">
+                <h2>Automated Style Checks</h2>
+                <p>Gnag comments on style violations so that you can focus on the big picture during code reviews.</p>
             </div>
-        </section>
 
-            <!-- Two -->
-        <section id="two" class="wrapper style3 fade-up">
-            <div class="inner">
-                <h2>Getting Started</h2>
-
-                <p>
-
-                    It's simple to add Gnag to any Android project, just click the link below and let Gnag do the work.
-
-                    <br><br>
-                    <a href="/startAuth" class="button">
-                        Auto Setup
-                    </a>
-
-                        <h3>Manual Setup</h3>
-                If giving Gnag access to your repo isn't for you, don't fret, include the following in your Gradle build file and with some slight modifications you'll be good to go.
-                    Head over to the <a href="https://github.com/btkelly/gnag">Github</a> README for more detailed information on how to customize the configuration.
-                </p>
-
-<pre><code>buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.btkelly:gnag:{current version}'
-    }
-}
-
-apply plugin: 'gnag'
-
-gnag {
-    github {
-        repoName '{owner/repo}'
-        authToken '{auth_token}'
-        issueNumber '{pr_number}'
-    }
-}</code></pre>
+            <div class="feature">
+                <h2>Most Valuable Reviewer</h2>
+                <p>Gnag is relentless; reviewing and commenting on code as Pull Requests get opened or updated.</p>
             </div>
-        </section>
+        </div>
 
-            <!-- Three -->
-        <section id="three" class="wrapper style2 fade-up">
-            <div class="inner">
-                <h2>Contributing</h2>
-                <p>
-                    We love pull requests from everyone. By participating in this project, you
-                    agree to abide by the <a href="http://contributor-covenant.org/version/1/4/" target="_blank">code of conduct</a>.
+        <img src="@routes.Assets.versioned("images/pull-request.png")" width="682" height="684" class="pull-request" alt="Gnag pull request comments">
 
-                    <ul>
-                        <li>Install JDK 8</li>
-                        <li>
-                            Fork, then clone the repo:
-                            <br>
-                            <code>git clone git@@github.com:your-username/gnag.git</code>
-                        </li>
-                        <li>
-                            Execute the buildAndRunExample.sh script making sure the example application build fails and violations are detected:
-                                <br>
-                            <code>./buildAndRunExample.sh</code>
-                        </li>
-                        <li>
-                            Make your changes and confirm the same violations are still present in the example application:
-                                <br>
-                            <code>./buildAndRunExample.sh</code>
-                        </li>
-                        <li>
-                            Push to your fork and <a href="https://github.com/btkelly/gnag/compare/">submit a pull request</a>.
-                        </li>
-                    </ul>
+        <a href="/startAuth" class="github-button">Set up with GitHub</a>
 
-                    At this point you're waiting on us. We like to at least comment on pull requests
-                    within three business days (and, typically, one business day). We may suggest
-                    some changes or improvements or alternatives.
-                </p>
-            </div>
-        </section>
-
-            <!-- Four -->
-        <section id="four" class="wrapper style1 fade-up">
-            <div class="inner" style="max-width: 800px">
-                <h2>License</h2>
-                <p>
-                    Copyright 2016 Bryan Kelly
-                </p>
-                <p>
-                    Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
-                    you may not use this file except in compliance with the License.
-                    You may obtain a copy of the License at
-                </p>
-                <p>
-                    <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>
-                </p>
-                <p>
-                    Unless required by applicable law or agreed to in writing, software
-                    distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
-                    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-                    See the License for the specific language governing permissions and
-                    limitations under the License.
-                </p>
-            </div>
-        </section>
-
+        <div class="readme-callout">
+            Looking to use Gnag outside of Github?<br>
+            Check out the <a href="https://github.com/btkelly/gnag/blob/master/README.md">README</a> for details.
+        </div>
     </div>
 
 }
