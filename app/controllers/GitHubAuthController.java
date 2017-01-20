@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import models.Project;
+import play.Configuration;
 import play.libs.Json;
 import play.libs.ws.WSClient;
 import play.mvc.Controller;
@@ -24,18 +25,16 @@ import java.util.concurrent.CompletionStage;
  */
 public class GitHubAuthController extends Controller {
 
-    //TODO move client ID and client secrect to configuration / environment variables
-    private static final String CLIENT_ID = "8b6feba195daa45b3f6c";
-    private static final String CLIENT_SECRET = "2856c15506bfae0592e7cc88761af653746196da";
-
     public static final String TOKEN_KEY = "token";
     public static final String VERSION_KEY = "latestVersion";
 
     private final WSClient wsClient;
+    private final Configuration configuration;
 
     @Inject
-    public GitHubAuthController(WSClient wsClient) {
+    public GitHubAuthController(WSClient wsClient, Configuration configuration) {
         this.wsClient = wsClient;
+        this.configuration = configuration;
     }
 
     /**
@@ -43,7 +42,7 @@ public class GitHubAuthController extends Controller {
      * @return
      */
     public Result startAuth() {
-        return redirect("https://github.com/login/oauth/authorize?scope=repo&client_id=" + CLIENT_ID);
+        return redirect("https://github.com/login/oauth/authorize?scope=repo&client_id=" + configuration.getString("gh.id"));
     }
 
     /**
@@ -58,8 +57,8 @@ public class GitHubAuthController extends Controller {
         final Http.Context context = Http.Context.current();
 
         return wsClient.url("https://github.com/login/oauth/access_token")
-                .setQueryParameter("client_id", CLIENT_ID)
-                .setQueryParameter("client_secret", CLIENT_SECRET)
+                .setQueryParameter("client_id", configuration.getString("gh.id"))
+                .setQueryParameter("client_secret", configuration.getString("gh.secret"))
                 .setQueryParameter("code", code)
                 .setHeader("accept", "application/json")
                 .setRequestTimeout(10 * 1000)
