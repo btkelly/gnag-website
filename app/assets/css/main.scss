@@ -26,14 +26,20 @@ a.github-button {
 	display: block;
 	width: 171px;
 	height: 16px;
-	padding: 18px 16px 18px 42px;
+	padding: 18px 16px 18px 36px;
 
 	border-radius: 50px;
 	text-align: center;
 	text-decoration: none;
   	text-transform: uppercase;
 	color: white;
-	background-color: $color-primary;
+	background: {
+		color: $color-primary;
+	    image: url("../images/logo-github@2x.png");
+	    position: 25px;
+	    repeat: no-repeat;
+		size: 16px;
+	}
 }
 
 /* Nav */
