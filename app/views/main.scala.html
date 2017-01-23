@@ -8,12 +8,6 @@
 
 <!DOCTYPE html>
 
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @@ajlkn
-    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-    -->
-
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -31,9 +25,23 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     </head>
     <body>
+
+        <div id="nav-wrapper">
+            <div id="nav">
+                <img src="@routes.Assets.versioned("images/gnag-bot-small@2x.png")" width="32" height="32" class="logo" title="Gnag Logo" alt="Gnag" />
+                <span class="site-name">Gnag</span>
+            </div>
+        </div>
+
         @* And here's where we render the `Html` object containing
          * the page content. *@
-        @content
+
+
+        <div id="content-wrapper">
+            <div id="content">
+                @content
+            </div>
+        </div>
 
         <!-- Footer -->
         <footer id="footer">
