@@ -5,47 +5,35 @@
  *@
 @main("Gnag") {
 
-    <div id="nav-wrapper">
-        <div id="nav">
-            <img src="@routes.Assets.versioned("images/gnag-bot-small@2x.png")" width="32" height="32" class="logo" title="Gnag Logo" alt="Gnag" />
-            <span class="site-name">Gnag</span>
+    <div class="header">
+        <h1>Gnag is a Gradle plugin for Android projects that monitors and reports on common violations.</h1>
+        <a href="/startAuth" class="github-button">Set up with GitHub</a>
+    </div>
+
+    <div class="features">
+        <div class="feature">
+            <h2>GitHub Integration</h2>
+            <p>Integrate with your existing GitHub workflow by allowing Gnag to comment on pull requests.</p>
+        </div>
+
+        <div class="feature">
+            <h2>Automated Style Checks</h2>
+            <p>Gnag comments on style violations so that you can focus on the big picture during code reviews.</p>
+        </div>
+
+        <div class="feature">
+            <h2>Most Valuable Reviewer</h2>
+            <p>Gnag is relentless; reviewing and commenting on code as Pull Requests get opened or updated.</p>
         </div>
     </div>
 
+    <img src="@routes.Assets.versioned("images/github-mockup@2x.png")" width="684" height="682" class="pull-request" alt="Gnag pull request comments">
 
-    <div id="content-wrapper">
-        <div id="content">
-            <div class="header">
-                <h1>Gnag is a Gradle plugin for Android projects that monitors and reports on common violations.</h1>
-                <a href="/startAuth" class="github-button">Set up with GitHub</a>
-            </div>
+    <a href="/startAuth" class="github-button">Set up with GitHub</a>
 
-            <div class="features">
-                <div class="feature">
-                    <h2>GitHub Integration</h2>
-                    <p>Integrate with your existing GitHub workflow by allowing Gnag to comment on pull requests.</p>
-                </div>
-
-                <div class="feature">
-                    <h2>Automated Style Checks</h2>
-                    <p>Gnag comments on style violations so that you can focus on the big picture during code reviews.</p>
-                </div>
-
-                <div class="feature">
-                    <h2>Most Valuable Reviewer</h2>
-                    <p>Gnag is relentless; reviewing and commenting on code as Pull Requests get opened or updated.</p>
-                </div>
-            </div>
-
-            <img src="@routes.Assets.versioned("images/github-mockup@2x.png")" width="684" height="682" class="pull-request" alt="Gnag pull request comments">
-
-            <a href="/startAuth" class="github-button">Set up with GitHub</a>
-
-            <div class="readme-callout">
-                Looking to use Gnag outside of GitHub?<br>
-                Check out the <a href="https://github.com/btkelly/gnag/blob/master/README.md">README</a> for details.
-            </div>
-        </div>
+    <div class="readme-callout">
+        Looking to use Gnag outside of GitHub?<br>
+        Check out the <a href="https://github.com/btkelly/gnag/blob/master/README.md">README</a> for details.
     </div>
 
 }

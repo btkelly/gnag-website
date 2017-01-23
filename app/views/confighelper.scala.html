@@ -9,55 +9,11 @@
 * argument is a `String` with the title of the page, the second
 * argument is an `Html` object containing the body of the page.
 *@
-@main("Repo Setup") {
+@main("Configuration Helper") {
 
-    <!-- Header -->
-    <header id="header">
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-            </ul>
-        </nav>
+    <select id="projectSelector"></select>
+    <div id="gradleConfig"></div>
 
-        <script>
-
-            $(function () {
-                // Dom ready
-
-                // Load project list to dropdown
-                $.getJSON("/loadProjects", function(data) {
-
-                    var projectSelector = $("#projectSelector");
-                    projectSelector.html("<option selected disabled>Select project to load your Gradle configuration.</option>");
-                    $.each(data, function(i, item) {
-                        projectSelector.append("<option value='"+item.fullName+"'>" + item.name + "</option>");
-                    });
-                });
-
-                //Update Gradle configuration section based on project selection
-                $("#projectSelector").change(function() {
-                    $.get("/configForSlug?slug=" + this.value, function(data) {
-                        $('#gradleConfig').html(data);
-                    });
-                });
-
-            });
-        </script>
-
-    </header>
-
-    <!-- Wrapper -->
-    <div id="wrapper">
-
-            <!-- Main -->
-        <section id="main" class="wrapper">
-            <div class="inner">
-                <h1 class="major">Repo Setup</h1>
-                <select id="projectSelector"></select>
-                <div id="gradleConfig"></div>
-            </div>
-        </section>
-
-    </div>
+    <script src="@routes.Assets.versioned("javascripts/config-helper.js")"></script>
 
 }
