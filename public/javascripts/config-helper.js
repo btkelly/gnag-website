@@ -1,3 +1,4 @@
+
 $(function () {
     // Dom ready
 
@@ -14,7 +15,22 @@ $(function () {
     //Update Gradle configuration section based on project selection
     $("#projectSelector").change(function() {
         $.get("/configForSlug?slug=" + this.value, function(data) {
-            $('#gradleConfig').html(data);
+
+            $('#projectConfig').html(data);
+
+            $('pre code').each(function(index, block) {
+                hljs.highlightBlock(block);
+            });
+
+            var clipboardSnippets = new Clipboard('[data-clipboard-snippet]',{
+                target: function(trigger) {
+                    return trigger.nextElementSibling;
+                }
+            });
+            clipboardSnippets.on('success', function(e) {
+                e.clearSelection();
+            });
+
         });
     });
 
