@@ -17,6 +17,7 @@ $(function () {
         $.get("/configForSlug?slug=" + this.value, function(data) {
 
             $('#projectConfig').html(data);
+            $("#tabs").tabs();
 
             $('pre code').each(function(index, block) {
                 hljs.highlightBlock(block);
