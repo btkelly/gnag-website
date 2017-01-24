@@ -29,7 +29,7 @@ public class HomeController extends Controller {
         if (session(GitHubAuthController.TOKEN_KEY) == null) {
             return redirect("/startAuth");
         } else {
-            return ok(confighelper.render());
+            return ok(confighelper.render(session(GitHubAuthController.TOKEN_KEY)));
         }
     }
 
