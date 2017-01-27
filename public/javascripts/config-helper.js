@@ -1,12 +1,22 @@
-
-$(function () {
-    // Dom ready
-    $("#tabs").tabs();
-
+function formatCodeBlocks() {
 
     $('pre code').each(function(index, block) {
         hljs.highlightBlock(block);
     });
+
+    new Clipboard('[data-clipboard-snippet]',{
+        target: function(trigger) {
+            return trigger.nextElementSibling;
+        }
+    }).on('success', function(e) {
+        e.clearSelection();
+    });
+}
+
+
+$(function () {
+    // Dom ready
+    formatCodeBlocks();
 
     // Load project list to dropdown
     $.getJSON("/loadProjects", function(data) {
@@ -21,32 +31,20 @@ $(function () {
     $("#combobox").change(function() {
         $.get("/configForSlug?slug=" + this.value, function(data) {
 
-            var projectConfig = $('#projectConfig')
+            var selectRepo = $('#select-repo');
 
-            var animate = !$.trim(projectConfig.html())
+            selectRepo.fadeOut(100, function(){
 
-            projectConfig.html(data);
+                selectRepo.html(data);
 
-            $('pre code').each(function(index, block) {
-                hljs.highlightBlock(block);
-            });
+                formatCodeBlocks();
 
-            var clipboardSnippets = new Clipboard('[data-clipboard-snippet]',{
-                target: function(trigger) {
-                    return trigger.nextElementSibling;
-                }
-            });
-            clipboardSnippets.on('success', function(e) {
-                e.clearSelection();
-            });
-
-            if (animate) {
-                var slideDuration = 200;
-                projectConfig.stop(true, true)
+                var slideDuration = 500;
+                selectRepo.stop(true, true)
                     .fadeIn({duration: slideDuration, queue: false})
                     .css('display', 'none')
                     .slideDown(slideDuration);
-            }
+            });
         });
     });
 

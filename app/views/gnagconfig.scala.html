@@ -1,10 +1,5 @@
 @(slug: String, token: String, latestVersion: String)
-
-<br><hr><br>
-
-Copy the following into your build.gradle for your application.
-
-
+<h1>Gradle Configuration</h1>
 @codeblock() {
 buildscript {
     repositories {
@@ -22,6 +17,98 @@ gnag {
         repoName '@slug'
     }
 }
+
 }
 
+<div id="no-ci" class="ci-config">
+
+    <h1>Local Usage</h1>
+
+    Gnag can be run locally and will produce a report containing all violations found.
+
+    @codeblock("bash") {
+./gradlew clean gnagCheck
+    }
+
+    Gnag can also be run locally to report on a GitHub pull request. First create the pull request and note the number of the pull request, then from the root of your project execute the following Gradle command.
+
+    @codeblock("bash") {
+./gradlew clean gnagReport -PauthToken="@token" -PissueNumber="REPLACE WITH THE PR NUMBER"
+    }
+
+    This will use <a href="https://help.github.com/articles/about-required-status-checks/">GitHub status'</a> to report a pass or fail but will allow the build to complete.
+
+</div>
+
+<div id="travis" class="ci-config">
+
+    <h1>Travis CI Usage</h1>
+
+    Create a <a href="https://docs.travis-ci.com/user/languages/android/">.travis.yml</a> in the root of your project.
+
+    @codeblock() {
+language: android
+
+android:
+    components:
+    - platform-tools
+    - tools
+
+jdk:
+    - oraclejdk8
+
+branches:
+    only:
+    - master
+
+script: "./travis-build.sh"
+    }
+
+    Create a travis-build.sh in the root of your project.
+
+    @codeblock("bash") {
+#!/bin/bash
+set -ev
+
+if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
+    ./gradlew clean gnagCheck
+else
+    ./gradlew clean gnagReport -PauthToken="${GNAG_AUTH_TOKEN}" -PissueNumber="${TRAVIS_PULL_REQUEST}"
+fi
+    }
+
+    Define an <a href="https://docs.travis-ci.com/user/environment-variables/#Defining-encrypted-variables-in-.travis.yml">encrypted environment variable</a>.  You can do this using the Travis web interface or like the following via Travis command line interface.
+
+    @codeblock("bash") {
+#!/bin/bash
+travis encrypt TRAVIS_PULL_REQUEST=@token --add env.matrix
+    }
+
+    Finally set Travis to build pull requests for your repository using the web interface.
+
+</div>
+<div id="jenkins" class="ci-config">
+
+    <h1>Jenkins Usage</h1>
+
+    Make sure you have the <a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin">GitHub Pull Request Builder</a> plugin on your Jenkins server.
+    <br><br>
+    Set a Jenkins environment variable for GNAG_AUTH_TOKEN with the value <b>@token</b>
+    <br><br>
+    In your project specific settings add a build step of <b>Invoke Gradle script</b>
+    <br><br>
+    Under the switches entry insert the following.
+
+    @codeblock("bash") {
+-PauthToken="${GNAG_AUTH_TOKEN}"
+-PissueNumber="${ghprbPullId}"
+    }
+
+    And for the tasks.
+
+    @codeblock("bash") {
+clean gnagReport
+    }
+
+</div>
 

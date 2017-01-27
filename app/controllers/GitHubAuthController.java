@@ -92,7 +92,7 @@ public class GitHubAuthController extends Controller {
 
                     Type listType = new TypeToken<ArrayList<Project>>() { }.getType();
 
-                    List<Project> projectList = gson.fromJson(response.getBody(), listType);
+                    ArrayList<Project> projectList = gson.fromJson(response.getBody(), listType);
 
                     return ok(Json.toJson(projectList));
                 });
