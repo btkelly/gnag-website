@@ -5,10 +5,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
+import models.PageLinks;
 import models.Project;
 import play.Configuration;
 import play.libs.Json;
 import play.libs.ws.WSClient;
+import play.libs.ws.WSResponse;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -16,9 +18,9 @@ import views.html.gnagconfig;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 
 /**
  * Created by bobbake4 on 8/17/16.
@@ -74,31 +76,6 @@ public class GitHubAuthController extends Controller {
     }
 
     /**
-     * Attempts to load the currently authenticated users project list using the current sessions access_token
-     * which is set in the GitHubAuthController.callback function.
-     * @return
-     */
-    public CompletionStage<Result> loadProjects() {
-
-        return wsClient.url("https://api.github.com/user/repos")
-                .setQueryParameter("access_token", session(TOKEN_KEY))
-                .setHeader("accept", "application/json")
-                .setRequestTimeout(10 * 1000)
-                .get()
-                .thenApply(response -> {
-                    Gson gson = new GsonBuilder()
-                            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                            .create();
-
-                    Type listType = new TypeToken<ArrayList<Project>>() { }.getType();
-
-                    ArrayList<Project> projectList = gson.fromJson(response.getBody(), listType);
-
-                    return ok(Json.toJson(projectList));
-                });
-    }
-
-    /**
      * Used to render the Gradle configuration for a specific repository slug, access_token and version combination.
      * Will fetch the latest plugin version if it has not already been cached.
      * @param slug
@@ -122,5 +99,69 @@ public class GitHubAuthController extends Controller {
         } else {
             return CompletableFuture.completedFuture(ok(gnagconfig.render(slug, session(TOKEN_KEY), session(VERSION_KEY))));
         }
+    }
+
+    /**
+     * Attempts to load the currently authenticated users project list using the current sessions access_token
+     * which is set in the GitHubAuthController.callback function.
+     * @return
+     */
+    public CompletionStage<Result> loadProjects() {
+
+        final Http.Context context = Http.Context.current();
+
+        Type listType = new TypeToken<ArrayList<Project>>() {}.getType();
+
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
+
+        ArrayList<Project> projectList = new ArrayList<>();
+
+        return getProjectPageRequest(1, context)
+                .thenCompose(new Function<WSResponse, CompletionStage<Void>>() {
+                    @Override
+                    public CompletionStage<Void> apply(WSResponse wsResponse) {
+
+                        addToProjectList(wsResponse);
+
+                        PageLinks pageLinks = new PageLinks(wsResponse);
+
+                        if (pageLinks.getLast() != null && pageLinks.getNext() != null) {
+
+                            int nextPage = pageLinks.getNext().getPageNum();
+                            int lastPage = pageLinks.getLast().getPageNum();
+
+                            CompletableFuture[] pageRequests = new CompletableFuture[(lastPage - nextPage) + 1];
+
+                            for (int index = 0; index <= lastPage - nextPage; index++) {
+                                pageRequests[index] = getProjectPageRequest(index + nextPage, context)
+                                        .thenAccept(this::addToProjectList)
+                                        .toCompletableFuture();
+                            }
+
+                            return CompletableFuture.allOf(pageRequests);
+
+                        } else {
+                            return CompletableFuture.completedFuture(null);
+                        }
+                    }
+
+                    private void addToProjectList(WSResponse wsResponse) {
+                        projectList.addAll(gson.fromJson(wsResponse.getBody(), listType));
+                    }
+                })
+                .thenApply(aVoid -> ok(Json.toJson(projectList)));
+    }
+
+    private CompletionStage<WSResponse> getProjectPageRequest(int page, Http.Context context) {
+
+        return wsClient.url("https://api.github.com/user/repos")
+                .setQueryParameter("access_token", context.session().get(TOKEN_KEY))
+                .setQueryParameter("per_page", "100")
+                .setQueryParameter("page", String.valueOf(page))
+                .setHeader("accept", "application/json")
+                .setRequestTimeout(10 * 1000)
+                .get();
     }
 }
