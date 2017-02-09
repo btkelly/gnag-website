@@ -1,4 +1,9 @@
 @(slug: String, token: String, latestVersion: String)
+
+<h1>GitHub Bot Account</h1>
+
+In an effort to keep Gnag Open Source and free we are unable to provide this as an integration. If you don't want your personal account to be the Gnag commenter <a href="https://help.github.com/articles/what-s-the-difference-between-user-and-organization-accounts/" target="_blank">GitHub</a> allows a second user account to be created for bot purposes.
+
 <h1>Gradle Configuration</h1>
 @codeblock() {
 buildscript {
@@ -77,6 +82,13 @@ else
 fi
     }
 
+    Make sure to give this file executable permissions because by default Android Studio will mark it read only.
+
+    @codeblock("bash") {
+#!/bin/bash
+chmod 755 travis-build.sh
+    }
+
     Define an <a href="https://docs.travis-ci.com/user/environment-variables/#Defining-encrypted-variables-in-.travis.yml">encrypted environment variable</a>.  You can do this using the Travis web interface or like the following via Travis command line interface.
 
     @codeblock("bash") {
@@ -111,8 +123,3 @@ clean gnagReport
     }
 
 </div>
-
-<h1>GitHub Bot Account</h1>
-
-    In an effort to keep Gnag Open Source and free we are unable to provide this as an integration. If you don't want your personal account to be the Gnag commenter <a href="https://help.github.com/articles/what-s-the-difference-between-user-and-organization-accounts/" target="_blank">GitHub</a> allows a second user account to be created for bot purposes.
-
