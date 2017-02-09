@@ -58,6 +58,8 @@ android:
     components:
     - platform-tools
     - tools
+    - build-tools-{PROJECT_TOOLS_VERSION}
+    - android-{PROJECT_ANDROID_API_LEVEL}
 
 jdk:
     - oraclejdk8
@@ -85,15 +87,13 @@ fi
     Make sure to give this file executable permissions because by default Android Studio will mark it read only.
 
     @codeblock("bash") {
-#!/bin/bash
 chmod 755 travis-build.sh
     }
 
     Define an <a href="https://docs.travis-ci.com/user/environment-variables/#Defining-encrypted-variables-in-.travis.yml">encrypted environment variable</a>.  You can do this using the Travis web interface or like the following via Travis command line interface.
 
     @codeblock("bash") {
-#!/bin/bash
-travis encrypt TRAVIS_PULL_REQUEST=@token --add env.matrix
+travis encrypt GNAG_AUTH_TOKEN=@token --add env.matrix
     }
 
     Finally set Travis to build pull requests for your repository using the web interface.
