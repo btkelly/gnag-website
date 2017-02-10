@@ -17,6 +17,7 @@ public class HomeController extends Controller {
      * @return
      */
     public Result index() {
+        session().remove(GitHubAuthController.TOKEN_KEY);
         return ok(index.render());
     }
 
