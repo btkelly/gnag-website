@@ -65,7 +65,6 @@ public class GitHubAuthController extends Controller {
                 .setRequestTimeout(10 * 1000)
                 .post("")
                 .thenApply(response -> {
-
                     String accessToken = response.asJson().get("access_token").asText();
 
                     context.session().put(TOKEN_KEY, accessToken);
@@ -141,10 +140,18 @@ public class GitHubAuthController extends Controller {
                     }
 
                     private void addToProjectList(WSResponse wsResponse) {
-                        projectList.addAll(gson.fromJson(wsResponse.getBody(), listType));
+                        if (isResponseSuccessful(context.session(), wsResponse)) {
+                            projectList.addAll(gson.fromJson(wsResponse.getBody(), listType));
+                        }
                     }
                 })
-                .thenApply(aVoid -> ok(Json.toJson(projectList)));
+                .thenApply(aVoid -> {
+                    if (context.session().containsKey(TOKEN_KEY)) {
+                        return ok(Json.toJson(projectList));
+                    } else {
+                        return redirect("/startAuth");
+                    }
+                });
     }
 
     private CompletionStage<WSResponse> getProjectPageRequest(int page, Http.Context context) {
@@ -156,5 +163,20 @@ public class GitHubAuthController extends Controller {
                 .setHeader("accept", "application/json")
                 .setRequestTimeout(10 * 1000)
                 .get();
+    }
+
+    private boolean isResponseSuccessful(Http.Session session, WSResponse wsResponse) {
+        if (wsResponse.getStatus() >= 400) {
+
+            if (wsResponse.getStatus() == 401) {
+                System.out.println("Invalid TOKEN redirecting to GitHub Auth");
+                session.remove(TOKEN_KEY);
+            }
+
+            return false;
+
+        }
+
+        return true;
     }
 }
