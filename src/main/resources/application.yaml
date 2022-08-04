@@ -1,0 +1,3 @@
+gitHubApp:
+  secret: ${GITHUB_APP_SECRET}
+  id: $GITHUB_APP_ID}
