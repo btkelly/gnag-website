@@ -5,6 +5,7 @@ import com.detroitlabs.middleware.core.webclient.queryParam
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.WebClient
@@ -14,6 +15,7 @@ import watch.gnag.website.models.github.AccessTokenResponse
 import java.net.URI
 
 @Component
+@EnableConfigurationProperties(GitHubAppProperties::class)
 class GitHubAuthClient(
     private val gitHubAppProperties: GitHubAppProperties,
     webclientBuilder: WebClient.Builder,

@@ -13,6 +13,7 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
 	mavenCentral()
+	maven { url = uri("https://jitpack.io") }
 	maven {
 		url = uri("https://artifactory.detroitlabs.com/artifactory/detroit-labs-release")
 		credentials {
@@ -32,6 +33,10 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 	implementation("org.springframework.session:spring-session-core")
+
+	// Required for running on the M1 Apple Chips
+	runtimeOnly("io.netty:netty-resolver-dns-native-macos:4.1.75.Final:osx-aarch_64")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 }
