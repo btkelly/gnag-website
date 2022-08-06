@@ -1,0 +1,11 @@
+logging:
+  enabled: true
+  obfuscate:
+    cookies:
+      - __Host-Signature
+      - Signature
+  exclude:
+    - /actuator/health
+  format.style: json
+  pattern:
+    console: "%clr(%-5p) %clr([%8.20t]){cyan} %clr(%-10.35logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"

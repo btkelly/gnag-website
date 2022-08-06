@@ -14,4 +14,6 @@ class GitHubAppProperties {
     @NotBlank
     lateinit var id: String
 
+    var redirectUrl: String? = null
+
 }

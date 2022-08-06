@@ -25,6 +25,7 @@ repositories {
 
 dependencies {
 	implementation("com.detroitlabs.labscloud:core:4.4.1")
+	implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

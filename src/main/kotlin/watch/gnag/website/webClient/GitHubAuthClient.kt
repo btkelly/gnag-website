@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
+import org.springframework.web.util.DefaultUriBuilderFactory
+import org.springframework.web.util.UriBuilder
+import org.springframework.web.util.UriComponentsBuilder
 import watch.gnag.website.configuration.GitHubAppProperties
 import watch.gnag.website.models.github.AccessTokenResponse
 import java.net.URI
@@ -39,7 +42,16 @@ class GitHubAuthClient(
         .defaultHeader("Accept", "application/json")
         .build()
 
-    fun getAuthenticationURI() = URI("$GITHUB_AUTHENTICATION_BASE_URL/oauth/authorize?scope=repo&client_id=${gitHubAppProperties.id}")
+    fun getAuthenticationURI(): URI = UriComponentsBuilder.fromHttpUrl(GITHUB_AUTHENTICATION_BASE_URL)
+        .pathSegment("oauth")
+        .pathSegment("authorize")
+        .queryParam("scope", "repo")
+        .queryParam("client_id", gitHubAppProperties.id)
+        .let { uriBuilder ->
+            gitHubAppProperties.redirectUrl?.let {
+                uriBuilder.queryParam("redirect_uri", "{redirectUri}").build(it)
+            } ?: uriBuilder.build().toUri()
+        }
 
     fun getAccessToken(tempCode: String) = webClient.post()
         .uri {

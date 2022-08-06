@@ -1,0 +1,197 @@
+@font-face {
+    font-family: "Graphik-Semibold";
+    src: url("../fonts/Graphik-Semibold.otf") format("opentype")
+}
+
+@font-face {
+    font-family: "Graphik-Regular";
+    src: url("../fonts/Graphik-Regular.otf") format("opentype")
+}
+
+@font-face {
+    font-family: "Graphik-Light";
+    src: url("../fonts/Graphik-Light.otf") format("opentype")
+}
+
+body {
+    font-family: "Graphik-Regular",sans-serif;
+    font-size: 1em;
+    font-weight: normal;
+    line-height: normal;
+    margin: 0
+}
+
+a,a:visited {
+    color: black;
+    text-decoration: underline
+}
+
+a.github-button {
+    font-family: "Graphik-Semibold",sans-serif;
+    font-size: .8125em;
+    font-weight: normal;
+    line-height: 1.4;
+    display: block;
+    width: 171px;
+    height: 16px;
+    padding: 18px 16px 18px 36px;
+    border-radius: 50px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: white;
+    background-color: #f03961;
+    background-image: url("../images/logo-github@2x.png");
+    background-position: 25px;
+    background-repeat: no-repeat;
+    background-size: 16px
+}
+
+#nav-wrapper {
+    width: 100%;
+    height: 72px;
+    box-shadow: inset 0 -1px 0 0 #e6dff6
+}
+
+#nav-wrapper #nav {
+    width: 976px;
+    padding: 0 20px;
+    margin: 0 auto
+}
+
+#nav-wrapper #nav .logo {
+    position: relative;
+    top: 20px
+}
+
+#nav-wrapper #nav .site-name {
+    font-family: "Graphik-Semibold",sans-serif;
+    font-size: 1em;
+    font-weight: normal;
+    line-height: normal;
+    position: relative;
+    top: 10px;
+    margin-left: 6px;
+    color: #f03961;
+    text-transform: uppercase
+}
+
+#content-wrapper {
+    width: 100%
+}
+
+#content-wrapper #content {
+    width: 976px;
+    padding: 0 20px;
+    margin: 0 auto
+}
+
+#content-wrapper #content .header {
+    margin-top: 64px;
+    width: 671px
+}
+
+#content-wrapper #content .header h1 {
+    font-family: "Graphik-Light",sans-serif;
+    font-size: 2.5em;
+    font-weight: normal;
+    line-height: 1.3;
+    width: 670px;
+    color: #312450
+}
+
+#content-wrapper #content .header .github-button {
+    margin: 0
+}
+
+#content-wrapper #content .features {
+    padding: 0 5px;
+    margin: 64px 0;
+    text-align: center
+}
+
+#content-wrapper #content .features .feature {
+    display: inline-block;
+    width: 415px;
+    margin: 0 19px
+}
+
+#content-wrapper #content .features .feature:last-child {
+    margin-top: 64px
+}
+
+#content-wrapper #content h2 {
+    font-family: "Graphik-Regular",sans-serif;
+    font-size: 1.625em;
+    font-weight: normal;
+    line-height: 2.5;
+    margin: 0;
+    color: #312450
+}
+
+#content-wrapper #content p {
+    margin: 0;
+    line-height: 1.6;
+    color: #312e38
+}
+
+#content-wrapper #content img.pull-request {
+    display: block;
+    margin: 0 auto 40px
+}
+
+#content-wrapper #content .github-button {
+    margin: 0 auto
+}
+
+#content-wrapper #content .readme-callout {
+    width: 368px;
+    padding: 32px 24px;
+    margin: 64px auto;
+    line-height: 1.6;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #eaeaeb
+}
+
+#footer {
+    padding: 64px 0;
+    margin-top: 32px;
+    color: #312e38;
+    text-align: center
+}
+
+.code-block {
+    position: relative;
+    margin: 0px
+}
+
+.code-block img {
+    -webkit-transition: opacity 0.3s ease-in-out;
+    -o-transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;
+    position: absolute;
+    right: 5px;
+    top: 36px;
+    width: 24px;
+    height: 24px
+}
+
+.code-block:hover img {
+    opacity: 1
+}
+
+.ci-config {
+    margin-top: 16px
+}
+
+#select-repo h1 {
+    font-family: "Graphik-Semibold",sans-serif;
+    font-size: 2em;
+    font-weight: normal;
+    line-height: 2.5;
+    margin: 0;
+    color: #312450
+}
+

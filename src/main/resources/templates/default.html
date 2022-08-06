@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-6J22QY5TEN"></script>
+        <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-6J22QY5TEN');
+
+        </script>
+
+        <meta charset="utf-8">
+        <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+        <title>Gnag Gradle Plugin</title>
+        <meta content="Gnag is a Gradle plugin for Android projects that monitors and reports on common violations."
+              name="description">
+        <link href="images/favicon.png" rel="shortcut icon" type="image/png">
+        <link href="styles/main.css" rel="stylesheet">
+
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    </head>
+    <body>
+        <div id="nav-wrapper">
+            <a href="/" style="color: transparent; text-decoration: none;">
+                <div id="nav">
+                    <img alt="Gnag" class="logo" height="32" src="images/gnag-bot-small@2x.png" title="Gnag Logo"
+                         width="32"/>
+                    <span class="site-name">Gnag</span>
+                </div>
+            </a>
+        </div>
+
+        <div id="content-wrapper">
+            <div id="content" layout:fragment="content">
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+			Gnag is licensed under the <a href="https://github.com/btkelly/gnag/blob/master/LICENSE.txt">Apache License.</a><br>
+                &copy; Gnag. All rights reserved.
+        </footer>
+
+    </body>
+</html>
