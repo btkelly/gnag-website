@@ -1,4 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
+import java.io.ByteArrayOutputStream
 
 plugins {
 	id("org.springframework.boot") version "2.7.2"
@@ -8,8 +10,12 @@ plugins {
 	kotlin("plugin.spring") version "1.6.21"
 }
 
+val imageRepo = "gcr.io"
+val gcpProjectName = "gnag"
+val versionNumber = "0.0.1"
+
 group = "watch.gnag"
-version = "0.0.1-SNAPSHOT"
+version = if (project.hasProperty("release")) versionNumber else "$versionNumber-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -60,4 +66,21 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.withType<BootBuildImage> {
+	environment = mapOf()
+	imageName = "${imageRepo}/${gcpProjectName}/${project.name}:${fetchGitHash()}"
+	tags = listOf("${imageRepo}/${gcpProjectName}/${project.name}:latest")
+}
+
+fun fetchGitHash(): String {
+	val stdout = ByteArrayOutputStream()
+
+	project.exec {
+		commandLine = listOf("git", "rev-parse", "--short", "HEAD")
+		standardOutput = stdout
+	}
+
+	return stdout.toString().trim()
 }

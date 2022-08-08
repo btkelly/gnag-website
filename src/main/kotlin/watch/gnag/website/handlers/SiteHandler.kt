@@ -21,7 +21,7 @@ class SiteHandler {
         .flatMap {
             ServerResponse.ok()
                 .contentType(MediaType.TEXT_HTML)
-                .render("configHelper")
+                .render("confighelper")
         }
         .switchIfEmpty(ServerResponse.temporaryRedirect(URI("/startAuth")).build())
 }
