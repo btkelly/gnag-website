@@ -3,6 +3,7 @@ package watch.gnag.website.models.github
 import org.springframework.web.reactive.function.client.ClientResponse
 import java.net.MalformedURLException
 
+@Suppress("LoopWithTooManyJumpStatements", "multiline-if-else")
 class PageLinks(headers: ClientResponse.Headers) {
 
     companion object {

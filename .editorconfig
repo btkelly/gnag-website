@@ -1,0 +1,3 @@
+# Ktlint Disabled Rules
+[*.{kt,kts}]
+disabled_rules=multiline-if-else,

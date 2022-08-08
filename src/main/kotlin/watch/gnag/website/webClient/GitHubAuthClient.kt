@@ -2,20 +2,14 @@ package watch.gnag.website.webClient
 
 import com.detroitlabs.middleware.core.webclient.customObjectMapper
 import com.detroitlabs.middleware.core.webclient.queryParam
-import com.fasterxml.jackson.annotation.JsonProperty.Access
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
-import com.fasterxml.jackson.databind.PropertyNamingStrategy
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.client.HttpServerErrorException
-import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
-import org.springframework.web.util.DefaultUriBuilderFactory
-import org.springframework.web.util.UriBuilder
 import org.springframework.web.util.UriComponentsBuilder
 import watch.gnag.website.configuration.GitHubAppProperties
 import watch.gnag.website.models.github.AccessTokenResponse
@@ -78,10 +72,4 @@ class GitHubAuthClient(
                 customObjectMapper.readValue(stringBody, AccessTokenResponse::class.java)
             }
         }
-        .onErrorContinue { t, u ->
-            AccessTokenResponse(
-                "fakeToken123", "", ""
-            )
-        }
-
 }

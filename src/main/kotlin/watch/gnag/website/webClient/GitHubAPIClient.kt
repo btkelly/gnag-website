@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
-import watch.gnag.website.configuration.GitHubAppProperties
 import watch.gnag.website.models.github.PageLinks
 import watch.gnag.website.models.github.PagedGithubResponse
 import watch.gnag.website.models.github.Release
@@ -17,7 +16,7 @@ import watch.gnag.website.models.github.Repo
 class GitHubAPIClient(
     webclientBuilder: WebClient.Builder,
     objectMapper: ObjectMapper
-    ) {
+) {
 
     companion object {
         private const val GITHUB_BASE_URL = "https://api.github.com"
@@ -70,5 +69,4 @@ class GitHubAPIClient(
         }
         .retrieve()
         .bodyToMono<Release>()
-
 }

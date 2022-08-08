@@ -19,17 +19,18 @@ import java.net.URI
 class GitHubHandler(
     private val gitHubAuthClient: GitHubAuthClient,
     private val gitHubAPIClient: GitHubAPIClient
-    ) {
+) {
 
-    fun startAuth(request: ServerRequest): Mono<ServerResponse> {
+    fun startAuth(): Mono<ServerResponse> {
         return ServerResponse.temporaryRedirect(gitHubAuthClient.getAuthenticationURI()).build()
     }
 
     fun authCallback(request: ServerRequest): Mono<ServerResponse> {
-        val tempCode = request.queryParam("code").orElseGet { throw HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing required code parameter") }
+        val tempCode = request.queryParam("code")
+            .orElseGet { throw HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing required code parameter") }
 
         return gitHubAuthClient.getAccessToken(tempCode)
-            .flatMap { accessTokenResponse -> SessionUtil.saveTokenToSession(request.session(), accessTokenResponse)}
+            .flatMap { accessTokenResponse -> SessionUtil.saveTokenToSession(request.session(), accessTokenResponse) }
             .then(ServerResponse.temporaryRedirect(URI("/configHelper")).build())
     }
 
@@ -55,7 +56,8 @@ class GitHubHandler(
     }
 
     fun configForSlug(request: ServerRequest): Mono<ServerResponse> {
-        val slug = request.queryParam("slug").orElseGet { throw HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing required slug parameter") }
+        val slug = request.queryParam("slug")
+            .orElseGet { throw HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing required slug parameter") }
 
         return SessionUtil.getTokenFromSession(request.session())
             .flatMap { accessToken ->

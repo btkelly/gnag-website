@@ -6,6 +6,7 @@ import org.springframework.boot.runApplication
 @SpringBootApplication(scanBasePackages = ["watch.gnag.website", "com.detroitlabs"])
 class WebsiteApplication
 
+@Suppress("SpreadOperator")
 fun main(args: Array<String>) {
-	runApplication<WebsiteApplication>(*args)
+    runApplication<WebsiteApplication>(*args)
 }

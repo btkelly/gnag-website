@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.7.2"
 	id("io.spring.dependency-management") version "1.0.12.RELEASE"
+	id("com.btkelly.gnag") version "3.0.3"
 	kotlin("jvm") version "1.6.21"
 	kotlin("plugin.spring") version "1.6.21"
 }
@@ -20,6 +21,14 @@ repositories {
 			username = properties["artifactory_user"] as String
 			password = properties["artifactory_password"] as String
 		}
+	}
+}
+
+gnag {
+	github {
+		repoName("btkelly/gnag-website")
+		authToken("0000000000000")
+		issueNumber("1")
 	}
 }
 

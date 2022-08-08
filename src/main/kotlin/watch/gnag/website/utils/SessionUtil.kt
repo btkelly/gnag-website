@@ -19,5 +19,4 @@ object SessionUtil {
     fun clearSession(session: Mono<WebSession>): Mono<Unit> {
         return session.flatMap { it.invalidate() }.thenReturn(Unit)
     }
-
 }

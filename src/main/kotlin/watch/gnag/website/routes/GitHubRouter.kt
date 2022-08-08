@@ -2,8 +2,6 @@ package watch.gnag.website.routes
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.reactive.function.server.RouterFunction
-import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.router
 import watch.gnag.website.handlers.GitHubHandler
 
@@ -12,7 +10,7 @@ class GitHubRouter(private val gitHubHandler: GitHubHandler) {
 
     @Bean
     fun githubRoutes() = router {
-        GET("/startAuth", gitHubHandler::startAuth)
+        GET("/startAuth") { gitHubHandler.startAuth() }
         GET("/callback", gitHubHandler::authCallback)
         GET("/loadProjects", gitHubHandler::loadProjects)
         GET("/configForSlug", gitHubHandler::configForSlug)
