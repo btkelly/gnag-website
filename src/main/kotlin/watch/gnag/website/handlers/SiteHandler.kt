@@ -18,10 +18,10 @@ class SiteHandler {
         )
 
     fun configHelper(request: ServerRequest) = SessionUtil.getTokenFromSession(request.session())
-        .flatMap { accessToken ->
+        .flatMap {
             ServerResponse.ok()
                 .contentType(MediaType.TEXT_HTML)
-                .render("configHelper", accessToken)
+                .render("configHelper")
         }
         .switchIfEmpty(ServerResponse.temporaryRedirect(URI("/startAuth")).build())
 }

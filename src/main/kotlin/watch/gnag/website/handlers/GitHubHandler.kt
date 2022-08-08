@@ -63,10 +63,17 @@ class GitHubHandler(
             .flatMap { accessToken ->
                 gitHubAPIClient.getLatestRepoRelease("btkelly", "gnag")
                     .map { latestRelease -> latestRelease.getVersionNumber() }
-                    .flatMap { latestVersion ->
+                    .map { latestVersion ->
+                        mapOf(
+                            "slug" to slug,
+                            "token" to accessToken,
+                            "latestVersion" to latestVersion
+                        )
+                    }
+                    .flatMap { variables ->
                         ServerResponse.ok()
                             .contentType(MediaType.TEXT_HTML)
-                            .render("gnagconfig", slug, accessToken, latestVersion)
+                            .render("gnagconfig", variables)
                     }
             }
             .switchIfEmpty(ServerResponse.temporaryRedirect(URI("/startAuth")).build())
