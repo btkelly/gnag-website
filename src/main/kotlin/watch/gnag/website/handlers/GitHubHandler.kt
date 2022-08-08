@@ -8,6 +8,8 @@ import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.core.scheduler.Schedulers
+import reactor.kotlin.core.publisher.toMono
 import watch.gnag.website.utils.SessionUtil
 import watch.gnag.website.webClient.GitHubAPIClient
 import watch.gnag.website.webClient.GitHubAuthClient
@@ -38,12 +40,15 @@ class GitHubHandler(
                     .flatMapMany { pagedResponse ->
                         val firstPage = pagedResponse.pageLinks.next?.getPageNum() ?: 1
                         val lastPage = pagedResponse.pageLinks.last?.getPageNum() ?: 1
-                        Flux.range(firstPage, lastPage).flatMap { page -> gitHubAPIClient.getUserRepos(accessToken, page) }
+                        Flux.range(firstPage, lastPage)
+                            .subscribeOn(Schedulers.boundedElastic())
+                            .flatMap { page -> gitHubAPIClient.getUserRepos(accessToken, page) }
+                            .mergeWith(pagedResponse.toMono())
                     }
                     .map { pagedResponse -> pagedResponse.data }
                     .flatMapIterable { repoList -> repoList }
                     .collectList()
-                    .map { repos -> repos.distinctBy { it.fullName } }
+                    .map { repos -> repos.distinctBy { it.fullName }.sortedBy { it.fullName.lowercase() } }
                     .flatMap { ServerResponse.ok().bodyValue(it) }
             }
             .switchIfEmpty(ServerResponse.temporaryRedirect(URI("/startAuth")).build())

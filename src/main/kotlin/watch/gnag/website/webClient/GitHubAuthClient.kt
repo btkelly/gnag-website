@@ -2,11 +2,15 @@ package watch.gnag.website.webClient
 
 import com.detroitlabs.middleware.core.webclient.customObjectMapper
 import com.detroitlabs.middleware.core.webclient.queryParam
+import com.fasterxml.jackson.annotation.JsonProperty.Access
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
+import org.springframework.web.client.HttpServerErrorException
 import org.springframework.web.reactive.function.client.ClientRequest
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
@@ -29,14 +33,14 @@ class GitHubAuthClient(
         private const val GITHUB_AUTHENTICATION_BASE_URL = "https://github.com/login"
     }
 
+    private val customObjectMapper = objectMapper.copy()
+        .apply {
+            propertyNamingStrategy = PropertyNamingStrategies.SNAKE_CASE
+        }
+
     private val webClient = webclientBuilder
         .baseUrl(GITHUB_AUTHENTICATION_BASE_URL)
-        .customObjectMapper(
-            objectMapper.copy()
-                .apply {
-                    propertyNamingStrategy = PropertyNamingStrategies.SNAKE_CASE
-                }
-        )
+        .customObjectMapper(customObjectMapper)
         .queryParam("client_id", gitHubAppProperties.id)
         .queryParam("client_secret", gitHubAppProperties.secret)
         .defaultHeader("Accept", "application/json")
@@ -60,7 +64,24 @@ class GitHubAuthClient(
                 .queryParam("code", tempCode)
                 .build()
         }
-        .retrieve()
-        .bodyToMono<AccessTokenResponse>()
+        .exchangeToMono { response ->
+            if (response.statusCode().is2xxSuccessful) {
+                response.bodyToMono<String>()
+            } else {
+                response.createException().map { throw it }
+            }
+        }
+        .map { stringBody ->
+            if (stringBody.contains("\"error\"")) {
+                throw HttpServerErrorException(HttpStatus.BAD_REQUEST, "Error fetching access token")
+            } else {
+                customObjectMapper.readValue(stringBody, AccessTokenResponse::class.java)
+            }
+        }
+        .onErrorContinue { t, u ->
+            AccessTokenResponse(
+                "fakeToken123", "", ""
+            )
+        }
 
 }

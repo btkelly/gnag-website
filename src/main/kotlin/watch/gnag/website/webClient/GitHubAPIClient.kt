@@ -39,11 +39,11 @@ class GitHubAPIClient(
         .uri {
             it.pathSegment("user")
                 .pathSegment("repos")
-                .queryParam("per_page", "100")
+                .queryParam("per_page", "30")
                 .queryParam("page", page.toString())
-                .queryParam("access_token", accessToken)
                 .build()
         }
+        .header("Authorization", "token $accessToken")
         .exchangeToMono { response ->
             if (response.statusCode().is2xxSuccessful) {
                 response.bodyToMono<List<Repo>>()
