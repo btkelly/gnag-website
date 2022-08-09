@@ -20,6 +20,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+          cache: 'gradle'
       - uses: gradle/gradle-build-action@v2
         name: Install Gradle Wrapper
       - run: ./gradlew clean gnagCheck bootBuildImage -Partifactory_user=$ARTIFACTORY_USER -Partifactory_password=$ARTIFACTORY_PASSWORD -PimageTag=${{ github.sha }}
