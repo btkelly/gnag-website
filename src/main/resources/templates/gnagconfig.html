@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Gnag Gradle Plugin - Authorized Config Helper</title>
+</head>
+<body>
+<h1>GitHub Bot Account</h1>
+
+In an effort to keep Gnag Open Source and free we are unable to provide this as an integration. If you don't want your personal account to be the Gnag commenter <a href="https://help.github.com/articles/what-s-the-difference-between-user-and-organization-accounts/" target="_blank">GitHub</a> allows a second user account to be created for bot purposes.
+
+<h1>Gradle Configuration</h1>
+
+    <pre class="code-block">
+        <img class="copy-button" data-clipboard-snippet src="images/copy.svg" title="Copy to Clipboard" alt="Copy" />
+        <code class="groovy">
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.btkelly:gnag:[[${latestVersion}]]'
+    }
+}
+
+apply plugin: 'gnag'
+
+gnag {
+    github {
+        repoName '[[${slug}]]'
+    }
+}
+        </code>
+    </pre>
+
+<div id="no-ci" class="ci-config">
+
+    <h1>Local Usage</h1>
+
+    Gnag can be run locally and will produce a report containing all violations found.
+
+    <pre class="code-block">
+        <img class="copy-button" data-clipboard-snippet src="images/copy.svg" title="Copy to Clipboard" alt="Copy" />
+        <code class="bash">
+./gradlew clean gnagCheck
+        </code>
+    </pre>
+
+    Gnag can also be run locally to report on a GitHub pull request. First create the pull request and note the number of the pull request, then from the root of your project execute the following Gradle command.
+
+    <pre class="code-block">
+        <img class="copy-button" data-clipboard-snippet src="images/copy.svg" title="Copy to Clipboard" alt="Copy" />
+        <code class="bash">
+./gradlew clean gnagReport -PauthToken="[[${token}]]" -PissueNumber="REPLACE WITH THE PR NUMBER"
+        </code>
+    </pre>
+
+    This will use <a href="https://help.github.com/articles/about-required-status-checks/">GitHub status'</a> to report a pass or fail but will allow the build to complete.
+
+</div>
+
+<div id="travis" class="ci-config">
+
+    <h1>Travis CI Usage</h1>
+
+    Create a <a href="https://docs.travis-ci.com/user/languages/android/">.travis.yml</a> in the root of your project.
+
+    <pre class="code-block">
+        <img class="copy-button" data-clipboard-snippet src="images/copy.svg" title="Copy to Clipboard" alt="Copy" />
+        <code class="yaml">
+language: android
+
+android:
+    components:
+    - platform-tools
+    - tools
+    - build-tools-{PROJECT_TOOLS_VERSION}
+    - android-{PROJECT_ANDROID_API_LEVEL}
+
+jdk:
+    - oraclejdk8
+
+branches:
+    only:
+    - master
+
+script: "./travis-build.sh"
+        </code>
+    </pre>
+
+    Create a travis-build.sh in the root of your project.
+
+    <pre class="code-block">
+        <img class="copy-button" data-clipboard-snippet src="images/copy.svg" title="Copy to Clipboard" alt="Copy" />
+        <code class="bash">
+#!/bin/bash
+set -ev
+
+if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
+    ./gradlew clean gnagCheck
+else
+    ./gradlew clean gnagReport -PauthToken="${GNAG_AUTH_TOKEN}" -PissueNumber="${TRAVIS_PULL_REQUEST}"
+fi
+        </code>
+    </pre>
+
+    Make sure to give this file executable permissions because by default Android Studio will mark it read only.
+
+    <pre class="code-block">
+        <img class="copy-button" data-clipboard-snippet src="images/copy.svg" title="Copy to Clipboard" alt="Copy" />
+        <code class="bash">
+chmod 755 travis-build.sh
+        </code>
+    </pre>
+
+    Define an <a href="https://docs.travis-ci.com/user/environment-variables/#Defining-encrypted-variables-in-.travis.yml">encrypted environment variable</a>.  You can do this using the Travis web interface or like the following via Travis command line interface.
+
+    <pre class="code-block">
+        <img class="copy-button" data-clipboard-snippet src="images/copy.svg" title="Copy to Clipboard" alt="Copy" />
+        <code class="bash">
+travis encrypt GNAG_AUTH_TOKEN=[[${token}]] --add env.matrix
+        </code>
+    </pre>
+
+    Finally set Travis to build pull requests for your repository using the web interface.
+
+</div>
+<div id="jenkins" class="ci-config">
+
+    <h1>Jenkins Usage</h1>
+
+    Make sure you have the <a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin">GitHub Pull Request Builder</a> plugin on your Jenkins server.
+    <br><br>
+    Set a Jenkins environment variable for GNAG_AUTH_TOKEN with the value <b>[[${token}]]</b>
+    <br><br>
+    In your project specific settings add a build step of <b>Invoke Gradle script</b>
+    <br><br>
+    Under the switches entry insert the following.
+
+    <pre class="code-block">
+        <img class="copy-button" data-clipboard-snippet src="images/copy.svg" title="Copy to Clipboard" alt="Copy" />
+        <code class="bash">
+-PauthToken="${GNAG_AUTH_TOKEN}"
+-PissueNumber="${ghprbPullId}"
+        </code>
+    </pre>
+
+    And for the tasks.
+
+    <pre class="code-block">
+        <img class="copy-button" data-clipboard-snippet src="images/copy.svg" title="Copy to Clipboard" alt="Copy" />
+        <code class="bash">
+clean gnagReport
+        </code>
+    </pre>
+
+</div>
+
+<h1>Thanks!</h1>
+
+    Big thanks to <a href="https://github.com/dtrenz">dtrenz</a>, <a href="https://github.com/davidklaw">davidklaw</a> and <a href="https://github.com/stkent">stkent</a> for all the help!
+    <br> <br>
+    Check out the <a href="https://github.com/btkelly/gnag/blob/master/README.md">README</a> for additional details.
+    <br> <br>
+    See an issue with the configuraiton or want additional CI instructions? Create an issue at the <a href="https://github.com/btkelly/gnag-website/issues">gnag-website</a> repo.
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+spring.thymeleaf.cache: false
+
+logging:
+  enabled: true
+  exclude:
+    - /actuator/health
+  pattern:
+    console: "%clr(%-5p) %clr([%8.20t]){cyan} %clr(%-10.35logger{0}){blue} %clr(:){red} %clr(%m){faint}%n"
+
+proxy:
+  enabled: true
+  host: 127.0.0.1
+  port: 8888
+  enableSSLProxy: true
