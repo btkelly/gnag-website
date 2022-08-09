@@ -38,6 +38,7 @@ jobs:
       - name: Build and Push Container
         run: |-
           docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}
+          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:latest
       - name: Deploy to Cloud Run
         uses: 'google-github-actions/deploy-cloudrun@v0'
         with:
