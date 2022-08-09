@@ -1,6 +1,8 @@
 name: Run Gnag Check
 on:
   push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -15,4 +17,7 @@ jobs:
           distribution: temurin
           java-version: 17
       - uses: gradle/gradle-build-action@v2
-      - run: ./gradlew clean gnagCheck
+      - run: ./gradlew clean gnagCheck -Partifactory_user=$ARTIFACTORY_USER -Partifactory_password=$ARTIFACTORY_PASSWORD
+        env:
+          ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
+          ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
