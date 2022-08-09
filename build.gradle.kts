@@ -11,7 +11,7 @@ plugins {
 }
 
 val imageRepo = "gcr.io"
-val gcpProjectName = "gnag"
+val gcpProjectName = "gnag-website"
 val versionNumber = "0.0.1"
 
 group = "watch.gnag"
@@ -70,17 +70,25 @@ tasks.withType<Test> {
 
 tasks.withType<BootBuildImage> {
 	environment = mapOf()
-	imageName = "${imageRepo}/${gcpProjectName}/${project.name}:${fetchGitHash()}"
+	imageName = "${imageRepo}/${gcpProjectName}/${project.name}:${getImageTag()}"
 	tags = listOf("${imageRepo}/${gcpProjectName}/${project.name}:latest")
 }
 
-fun fetchGitHash(): String {
-	val stdout = ByteArrayOutputStream()
+fun getImageTag(): String {
+	return if (properties.containsKey("imageTag")) {
+		properties["imageTag"] as String
+	} else {
+		try {
+			ByteArrayOutputStream().use { stdout ->
+				project.exec {
+					commandLine = listOf("git", "rev-parse", "--short", "HEAD")
+					standardOutput = stdout
+				}
 
-	project.exec {
-		commandLine = listOf("git", "rev-parse", "--short", "HEAD")
-		standardOutput = stdout
+				stdout.toString().trim()
+			}
+		} catch (_: Throwable) {
+			"latest"
+		}
 	}
-
-	return stdout.toString().trim()
 }
