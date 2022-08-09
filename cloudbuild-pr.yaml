@@ -1,0 +1,12 @@
+steps:
+  # Build the container image
+  - name: 'eclipse-temurin:17-jdk-alpine'
+    entrypoint: 'sh'
+    args: [ '-c', './gradlew clean gnagCheck bootBuildImage -Partifactory_user=$$ARTIFACTORY_USER -Partifactory_password=$$ARTIFACTORY_PASSWORD -PimageTag=$COMMIT_SHA' ]
+    secretEnv: ['ARTIFACTORY_USER', 'ARTIFACTORY_PASSWORD']
+availableSecrets:
+  secretManager:
+    - versionName: 'projects/$PROJECT_NUMBER/secrets/ARTIFACTORY_USER/versions/latest'
+      env: 'ARTIFACTORY_USER'
+    - versionName: 'projects/$PROJECT_NUMBER/secrets/ARTIFACTORY_PASSWORD/versions/latest'
+      env: 'ARTIFACTORY_PASSWORD'
