@@ -10,7 +10,7 @@ env:
   REGION: us-central1
 
 jobs:
-  test:
+  Build-and-Deploy-Main:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
